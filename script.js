@@ -128,7 +128,7 @@ function rotateMap() {
 
 function scheduleRotation() {
   clearTimeout(rotationTimeout);
-  const delay = 2600 + Math.random() * 2200;
+  const delay = 1600 + Math.random() * 1200;
   rotationTimeout = setTimeout(rotateMap, delay);
 }
 
