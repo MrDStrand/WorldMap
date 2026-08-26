@@ -12,8 +12,8 @@
       <div class="eyebrow">WORST UX OLYMPICS · CHALLENGE 07</div>
       <h1>Choose a Country</h1>
       <p class="intro">
-        Select <strong>Sweden</strong>. There are no country names and borders only appear when you hover.
-        The map randomly rotates 90° every few seconds.
+        Select <strong id="targetInline">...</strong>. There are no country names and borders only appear when you hover.
+        The map randomly rotates 90° every 1–2 seconds.
       </p>
 
       <div class="stats">
@@ -24,7 +24,7 @@
 
       <div class="map-panel">
         <div class="map-toolbar">
-          <strong>Target: Sweden</strong>
+          <strong>Target: <span id="targetName">...</span></strong>
           <span id="orientation">Orientation: probably north-ish</span>
         </div>
 
@@ -39,11 +39,11 @@
       </p>
 
       <div class="actions">
-        <button id="resetBtn" type="button">Reset challenge</button>
+        <button id="resetBtn" type="button">New round</button>
       </div>
     </section>
   </main>
 
-  <script type="module" src="script.js?v=1"></script>
+  <script type="module" src="script.js?v=2"></script>
 </body>
 </html>

@@ -2,7 +2,30 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 import * as topojson from "https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/+esm";
 import world from "https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json/+esm";
 
-const TARGET_ID = "752";
+// A pool of moderately recognizable but not ultra-obvious countries.
+// A target is chosen ONCE when a round starts and does not change when the map rotates.
+const TARGET_POOL = [
+  { id: "752", name: "Sweden" },
+  { id: "620", name: "Portugal" },
+  { id: "040", name: "Austria" },
+  { id: "191", name: "Croatia" },
+  { id: "705", name: "Slovenia" },
+  { id: "703", name: "Slovakia" },
+  { id: "233", name: "Estonia" },
+  { id: "428", name: "Latvia" },
+  { id: "440", name: "Lithuania" },
+  { id: "100", name: "Bulgaria" },
+  { id: "642", name: "Romania" },
+  { id: "688", name: "Serbia" },
+  { id: "858", name: "Uruguay" },
+  { id: "218", name: "Ecuador" },
+  { id: "068", name: "Bolivia" },
+  { id: "600", name: "Paraguay" },
+  { id: "788", name: "Tunisia" },
+  { id: "400", name: "Jordan" },
+  { id: "418", name: "Laos" },
+  { id: "524", name: "Nepal" }
+];
 
 const svg = d3.select("#worldMap");
 const loadingEl = document.getElementById("loading");
@@ -11,9 +34,13 @@ const rotationsEl = document.getElementById("rotations");
 const mistakesEl = document.getElementById("mistakes");
 const messageEl = document.getElementById("message");
 const orientationEl = document.getElementById("orientation");
+const targetNameEl = document.getElementById("targetName");
+const targetInlineEl = document.getElementById("targetInline");
 const resetBtn = document.getElementById("resetBtn");
 const mapWrap = document.getElementById("mapWrap");
 
+let target = null;
+let previousTargetId = null;
 let startedAt = null;
 let timerFrame = null;
 let finished = false;
@@ -25,7 +52,10 @@ let rotationTimeout = null;
 const countries = topojson.feature(world, world.objects.countries).features;
 
 const projection = d3.geoNaturalEarth1()
-  .fitExtent([[18, 18], [982, 522]], { type: "FeatureCollection", features: countries });
+  .fitExtent([[18, 18], [982, 522]], {
+    type: "FeatureCollection",
+    features: countries
+  });
 
 const path = d3.geoPath(projection);
 const layer = svg.append("g").attr("class", "map-layer");
@@ -35,7 +65,7 @@ layer.selectAll("path")
   .join("path")
   .attr("class", "country")
   .attr("d", path)
-  .attr("data-id", d => String(d.id))
+  .attr("data-id", d => String(d.id).padStart(3, "0"))
   .attr("tabindex", "0")
   .attr("aria-label", "Unlabeled country")
   .on("pointerenter", function () {
@@ -57,7 +87,16 @@ layer.selectAll("path")
   });
 
 loadingEl.classList.add("hidden");
-scheduleRotation();
+startNewRound();
+
+function chooseTarget() {
+  const options = TARGET_POOL.filter(item => item.id !== previousTargetId);
+  target = options[Math.floor(Math.random() * options.length)];
+  previousTargetId = target.id;
+
+  targetNameEl.textContent = target.name;
+  targetInlineEl.textContent = target.name;
+}
 
 function startTimerIfNeeded() {
   if (startedAt !== null || finished) return;
@@ -88,12 +127,14 @@ function chooseCountry(node, country) {
     .classed("selected-wrong", false)
     .classed("selected-correct", false);
 
-  if (String(country.id) === TARGET_ID) {
+  const selectedId = String(country.id).padStart(3, "0");
+
+  if (selectedId === target.id) {
     d3.select(node).classed("selected-correct", true);
     stopTimer();
     messageEl.className = "message success";
     messageEl.textContent =
-      `Sweden selected in ${timerEl.textContent} after ${rotations} rotations and ${mistakes} wrong countries.`;
+      `${target.name} selected in ${timerEl.textContent} after ${rotations} rotations and ${mistakes} wrong countries.`;
     return;
   }
 
@@ -101,7 +142,7 @@ function chooseCountry(node, country) {
   mistakesEl.textContent = mistakes;
   d3.select(node).classed("selected-wrong", true);
   messageEl.className = "message error";
-  messageEl.textContent = "That was definitely a country. It was not Sweden.";
+  messageEl.textContent = `That was definitely a country. It was not ${target.name}.`;
 }
 
 function rotateMap() {
@@ -128,13 +169,11 @@ function rotateMap() {
 
 function scheduleRotation() {
   clearTimeout(rotationTimeout);
-  const delay = 1000 + Math.random() * 1200;
+  const delay = 1000 + Math.random() * 1000;
   rotationTimeout = setTimeout(rotateMap, delay);
 }
 
-mapWrap.addEventListener("pointerenter", startTimerIfNeeded);
-
-resetBtn.addEventListener("click", () => {
+function startNewRound() {
   finished = false;
   startedAt = null;
   cancelAnimationFrame(timerFrame);
@@ -143,6 +182,8 @@ resetBtn.addEventListener("click", () => {
   mistakes = 0;
   rotations = 0;
   angle = 0;
+
+  chooseTarget();
 
   timerEl.textContent = "0.000 s";
   mistakesEl.textContent = "0";
@@ -157,4 +198,7 @@ resetBtn.addEventListener("click", () => {
     .classed("selected-correct", false);
 
   scheduleRotation();
-});
+}
+
+mapWrap.addEventListener("pointerenter", startTimerIfNeeded);
+resetBtn.addEventListener("click", startNewRound);

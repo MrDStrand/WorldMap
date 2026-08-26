@@ -1,21 +1,19 @@
-# World Map from Hell
+# World Map from Hell v2
 
-A deliberately terrible geography challenge for the Worst UX Olympics.
+## Changes
 
-## Task
+- The map now rotates every **1–2 seconds**.
+- Each round chooses one random target from a pool of **20 countries**.
+- The target stays fixed for the entire round, including through map rotations.
+- Press **New round** to choose a new target.
 
-Select **Sweden**.
+## Target pool
 
-## UX crimes
-
-- No country names
-- Country borders are invisible until hover/focus
-- The whole world map randomly rotates in 90-degree increments
-- Wrong clicks only tell you that you chose the wrong country
-- Timer, rotation count, and mistakes are tracked
+Sweden, Portugal, Austria, Croatia, Slovenia, Slovakia, Estonia, Latvia, Lithuania,
+Bulgaria, Romania, Serbia, Uruguay, Ecuador, Bolivia, Paraguay, Tunisia, Jordan,
+Laos, and Nepal.
 
 ## GitHub Pages
 
-Upload `index.html`, `style.css`, `script.js`, and `README.md` to the repository root, commit, then enable GitHub Pages from `main` → `/ (root)`.
-
-The map uses published `world-atlas` country geometry and identifies Sweden with ISO numeric code `752`.
+Upload `index.html`, `style.css`, `script.js`, and `README.md` to the repository root,
+commit, and GitHub Pages will redeploy automatically.
