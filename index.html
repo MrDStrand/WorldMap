@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>World Map from Hell</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="card">
+      <div class="eyebrow">WORST UX OLYMPICS · CHALLENGE 07</div>
+      <h1>Choose a Country</h1>
+      <p class="intro">
+        Select <strong>Sweden</strong>. There are no country names and borders only appear when you hover.
+        The map randomly rotates 90° every few seconds.
+      </p>
+
+      <div class="stats">
+        <div><span>Time</span><strong id="timer">0.000 s</strong></div>
+        <div><span>Rotations</span><strong id="rotations">0</strong></div>
+        <div><span>Wrong countries</span><strong id="mistakes">0</strong></div>
+      </div>
+
+      <div class="map-panel">
+        <div class="map-toolbar">
+          <strong>Target: Sweden</strong>
+          <span id="orientation">Orientation: probably north-ish</span>
+        </div>
+
+        <div id="mapWrap" class="map-wrap">
+          <div id="loading" class="loading">Loading unnecessarily unlabeled geography…</div>
+          <svg id="worldMap" viewBox="0 0 1000 540" aria-label="Unlabeled interactive world map"></svg>
+        </div>
+      </div>
+
+      <p id="message" class="message" aria-live="polite">
+        The timer starts when you move over the map.
+      </p>
+
+      <div class="actions">
+        <button id="resetBtn" type="button">Reset challenge</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="script.js?v=1"></script>
+</body>
+</html>
