@@ -83,19 +83,14 @@ h1 {
 }
 
 .country {
-  fill: #6d6d68;
-  stroke: transparent;
-  stroke-width: 1.4;
-  vector-effect: non-scaling-stroke;
-  cursor: crosshair;
+  fill: #aaa;
+  stroke: #aaa;
+  stroke-width: 1px;
 }
 
-.country:hover,
-.country.hovered {
-  stroke: #111;
-  stroke-width: 2.2;
+.country:hover {
+  stroke: black;
 }
-
 .country.selected-wrong { fill: #8a8a84; }
 .country.selected-correct { fill: #111; stroke: #111; }
 
