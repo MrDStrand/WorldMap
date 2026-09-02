@@ -5,18 +5,6 @@ import world from "https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.
 // A pool of moderately recognizable but not ultra-obvious countries.
 // A target is chosen ONCE when a round starts and does not change when the map rotates.
 const TARGET_POOL = [
-  { id: "752", name: "Sweden" },
-  { id: "620", name: "Portugal" },
-  { id: "040", name: "Austria" },
-  { id: "191", name: "Croatia" },
-  { id: "705", name: "Slovenia" },
-  { id: "703", name: "Slovakia" },
-  { id: "233", name: "Estonia" },
-  { id: "428", name: "Latvia" },
-  { id: "440", name: "Lithuania" },
-  { id: "100", name: "Bulgaria" },
-  { id: "642", name: "Romania" },
-  { id: "688", name: "Serbia" },
   { id: "858", name: "Uruguay" },
   { id: "218", name: "Ecuador" },
   { id: "068", name: "Bolivia" },
